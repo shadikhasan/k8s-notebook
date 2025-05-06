@@ -120,12 +120,20 @@ sudo systemctl enable containerd
 ## ✅ 3. Install Kubernetes components (All Nodes)
 
 ```bash
-sudo curl -fsSLo /etc/apt/trusted.gpg.d/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+# Create keyring directory
+sudo mkdir -p -m 755 /etc/apt/keyrings
 
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" |   sudo tee /etc/apt/sources.list.d/kubernetes.list
+# Add signing key
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | \
+  sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-sudo apt update
-sudo apt install -y kubelet kubeadm kubectl
+# Add Kubernetes 1.33 repository
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | \
+  sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Update and install Kubernetes tools
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
