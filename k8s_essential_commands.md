@@ -3,7 +3,6 @@
 A concise guide to essential Kubernetes (`kubectl`) commands for managing clusters, resources, and debugging. Use this cheat sheet to streamline your workflow and troubleshoot effectively.
 
 > **Note**: Replace `<ns>` with the namespace name, `<pod>`, `<file>`, `<name>`, or other placeholders as needed. Commands assume `kubectl` is configured to interact with your cluster.
-> **Copy Commands**: Click the code block or select the text to copy each command easily. Use a terminal to paste and execute.
 
 ---
 
@@ -19,18 +18,18 @@ A concise guide to essential Kubernetes (`kubectl`) commands for managing cluste
 
 ## 📦 Listing Resources
 
-Commands to view resources like pods, services, and more across namespaces. Copy the command by selecting the code block.
+Commands to view resources like pods, services, and more across namespaces.
 
-| **Command**                                        | **Description**                                |
-| -------------------------------------------------- | ---------------------------------------------- |
-| `bash<br>kubectl get all<br>`                      | List all resources in the default namespace    |
-| `bash<br>kubectl get all -n <namespace><br>`       | List all resources in a specific namespace     |
-| `bash<br>kubectl get pods -A<br>`                  | List all pods across all namespaces            |
-| `bash<br>kubectl get svc -A<br>`                   | List all services across all namespaces        |
-| `bash<br>kubectl get events -A<br>`                | Show all cluster events (useful for debugging) |
-| `bash<br>kubectl get pods --watch<br>`             | Watch pod status updates in real-time          |
-| `bash<br>kubectl get endpoints -n <namespace><br>` | Show endpoints for services in a namespace     |
-| `bash<br>kubectl get nodes<br>`                    | List all cluster nodes                         |
+| **Command**                            | **Description**                                |
+| -------------------------------------- | ---------------------------------------------- |
+| `kubectl get all`                      | List all resources in the default namespace    |
+| `kubectl get all -n <namespace>`       | List all resources in a specific namespace     |
+| `kubectl get pods -A`                  | List all pods across all namespaces            |
+| `kubectl get svc -A`                   | List all services across all namespaces        |
+| `kubectl get events -A`                | Show all cluster events (useful for debugging) |
+| `kubectl get pods --watch`             | Watch pod status updates in real-time          |
+| `kubectl get endpoints -n <namespace>` | Show endpoints for services in a namespace     |
+| `kubectl get nodes`                    | List all cluster nodes                         |
 
 > **Tip**: Use `-o wide` (e.g., `kubectl get pods -o wide`) for additional details like IP addresses or node names.
 
@@ -38,17 +37,17 @@ Commands to view resources like pods, services, and more across namespaces. Copy
 
 ## 🔎 Inspecting and Debugging
 
-Commands to dive deeper into resource details and troubleshoot issues. Copy commands from the code blocks below.
+Commands to dive deeper into resource details and troubleshoot issues.
 
-| **Command**                                                                         | **Description**                                 |
-| ----------------------------------------------------------------------------------- | ----------------------------------------------- |
-| `bash<br>kubectl describe pod <pod> -n <ns><br>`                                    | Show detailed info for a specific pod           |
-| `bash<br>kubectl logs <pod> -n <ns><br>`                                            | View logs of a pod's primary container          |
-| `bash<br>kubectl logs <pod> -c <container> -n <ns><br>`                             | View logs of a specific container in a pod      |
-| `bash<br>kubectl exec -it <pod> -n <ns> -- /bin/sh<br>`                             | Open an interactive shell in a pod              |
-| `bash<br>kubectl top pod -n <ns><br>`                                               | View CPU/memory usage (requires metrics-server) |
-| `bash<br>kubectl top node<br>`                                                      | View resource usage for nodes                   |
-| `bash<br>kubectl get events --field-selector involvedObject.name=<pod> -n <ns><br>` | Filter events for a specific pod                |
+| **Command**                                                             | **Description**                                 |
+| ----------------------------------------------------------------------- | ----------------------------------------------- |
+| `kubectl describe pod <pod> -n <ns>`                                    | Show detailed info for a specific pod           |
+| `kubectl logs <pod> -n <ns>`                                            | View logs of a pod's primary container          |
+| `kubectl logs <pod> -c <container> -n <ns>`                             | View logs of a specific container in a pod      |
+| `kubectl exec -it <pod> -n <ns> -- /bin/sh`                             | Open an interactive shell in a pod              |
+| `kubectl top pod -n <ns>`                                               | View CPU/memory usage (requires metrics-server) |
+| `kubectl top node`                                                      | View resource usage for nodes                   |
+| `kubectl get events --field-selector involvedObject.name=<pod> -n <ns>` | Filter events for a specific pod                |
 
 > **Tip**: If `/bin/sh` fails, try `/bin/bash` or `sh` for shell access. Use `--previous` with `kubectl logs` to view logs from a crashed pod.
 
@@ -56,15 +55,15 @@ Commands to dive deeper into resource details and troubleshoot issues. Copy comm
 
 ## 🌐 Namespace and Context Management
 
-Commands to manage namespaces and `kubectl` contexts for efficient cluster navigation. Select and copy commands as needed.
+Commands to manage namespaces and `kubectl` contexts for efficient cluster navigation.
 
-| **Command**                                                         | **Description**                               |
-| ------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------ |
-| `bash<br>kubectl get ns<br>`                                        | List all namespaces in the cluster            |
-| ```bash<br>kubectl config view --minify                             | grep namespace<br>```                         | Show the current context's namespace |
-| `bash<br>kubectl config set-context --current --namespace=<ns><br>` | Set default namespace for the current context |
-| `bash<br>kubectl create ns <ns><br>`                                | Create a new namespace                        |
-| `bash<br>kubectl delete ns <ns><br>`                                | Delete a namespace and its resources          |
+| **Command**                                             | **Description**                               |
+| ------------------------------------------------------- | --------------------------------------------- | ------------------------------------ |
+| `kubectl get ns`                                        | List all namespaces in the cluster            |
+| `kubectl config view --minify                           | grep namespace`                               | Show the current context's namespace |
+| `kubectl config set-context --current --namespace=<ns>` | Set default namespace for the current context |
+| `kubectl create ns <ns>`                                | Create a new namespace                        |
+| `kubectl delete ns <ns>`                                | Delete a namespace and its resources          |
 
 > **Tip**: Use `kubens` (from `kubectx` tool) for faster namespace switching.
 
@@ -72,18 +71,18 @@ Commands to manage namespaces and `kubectl` contexts for efficient cluster navig
 
 ## 🛠 Resource Management
 
-Commands to create, update, scale, and delete resources. Copy commands from the code blocks for quick execution.
+Commands to create, update, scale, and delete resources.
 
-| **Command**                                                          | **Description**                                  |
-| -------------------------------------------------------------------- | ------------------------------------------------ |
-| `bash<br>kubectl apply -f <file>.yaml<br>`                           | Apply a configuration from a YAML/JSON file      |
-| `bash<br>kubectl delete -f <file>.yaml<br>`                          | Delete resources defined in a YAML/JSON file     |
-| `bash<br>kubectl edit <resource>/<name> -n <ns><br>`                 | Edit a resource (e.g., `deployment/myapp`)       |
-| `bash<br>kubectl scale deployment <name> --replicas=<n> -n <ns><br>` | Scale a deployment to `<n>` replicas             |
-| `bash<br>kubectl rollout restart deployment <name> -n <ns><br>`      | Restart a deployment by triggering a new rollout |
-| `bash<br>kubectl rollout status deployment <name> -n <ns><br>`       | Check the status of a deployment rollout         |
-| `bash<br>kubectl get componentstatuses<br>`                          | Check the health of core Kubernetes components   |
-| `bash<br>kubectl label <resource> <name> <key>=<value> -n <ns><br>`  | Add a label to a resource                        |
+| **Command**                                              | **Description**                                  |
+| -------------------------------------------------------- | ------------------------------------------------ |
+| `kubectl apply -f <file>.yaml`                           | Apply a configuration from a YAML/JSON file      |
+| `kubectl delete -f <file>.yaml`                          | Delete resources defined in a YAML/JSON file     |
+| `kubectl edit <resource>/<name> -n <ns>`                 | Edit a resource (e.g., `deployment/myapp`)       |
+| `kubectl scale deployment <name> --replicas=<n> -n <ns>` | Scale a deployment to `<n>` replicas             |
+| `kubectl rollout restart deployment <name> -n <ns>`      | Restart a deployment by triggering a new rollout |
+| `kubectl rollout status deployment <name> -n <ns>`       | Check the status of a deployment rollout         |
+| `kubectl get componentstatuses`                          | Check the health of core Kubernetes components   |
+| `kubectl label <resource> <name> <key>=<value> -n <ns>`  | Add a label to a resource                        |
 
 > **Tip**: Use `kubectl apply -k` for Kustomize-based configurations.
 
@@ -97,7 +96,6 @@ Commands to create, update, scale, and delete resources. Copy commands from the 
 - **Autocomplete**: Enable `kubectl` autocomplete in your shell for faster command entry.
 - **Plugins**: Explore tools like `k9s`, `kubectx`, or `stern` for enhanced Kubernetes management.
 - **Error Handling**: If a command fails, check cluster connectivity (`kubectl cluster-info`) and permissions (`kubectl auth can-i`).
-- **Copy Efficiency**: Triple-click a code block to select the entire command, then copy and paste into your terminal.
 
 ---
 
