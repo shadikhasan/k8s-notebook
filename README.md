@@ -222,3 +222,21 @@ All nodes should show `Ready` status and pods should be `Running`.
 ## ✅ Done!
 
 You now have a working Kubernetes cluster using kubeadm and Calico! 🎉
+
+## ✅ Essential k8s command:
+# Get nodes in the kube-system namespace
+```bash
+kubectl get nodes
+```
+# Get nodes in the kube-system namespace with extra details
+```bash
+kubectl get nodes -o wide
+```
+# Get pods in the kube-system namespace
+```bash
+kubectl get pods -n kube-system
+```
+# Get all resources (pods, services, deployments, etc.) in the kube-system namespace
+```bash
+kubectl get all -n kube-system
+```
