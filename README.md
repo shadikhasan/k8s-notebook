@@ -4,6 +4,44 @@ This guide explains how to set up a Kubernetes cluster using `kubeadm` and `Cali
 
 ---
 
+## ✅ 0. Configure Static Network (All Nodes)
+
+Ensure your network settings are stable (especially for multi-node clusters). Using Netplan:
+
+### Edit Netplan Configuration
+
+```bash
+sudo nano /etc/netplan/00-installer-config.yaml
+```
+
+Example static IP configuration:
+
+```yaml
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses:
+        - 192.168.1.100/24
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+```
+
+> Replace `eth0` with your actual interface name (`ip a` to check) and adjust the IP settings accordingly.
+
+### Apply the Netplan Configuration
+
+```bash
+sudo netplan try
+sudo netplan apply
+```
+
+---
+
 ## ✅ 1. Prepare the System (All Nodes)
 
 ```bash
@@ -84,8 +122,7 @@ sudo systemctl enable containerd
 ```bash
 sudo curl -fsSLo /etc/apt/trusted.gpg.d/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | \
-  sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" |   sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
