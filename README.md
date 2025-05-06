@@ -46,7 +46,7 @@ sudo netplan apply
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y curl apt-transport-https ca-certificates software-properties-common
+sudo apt install -y curl apt-transport-https ca-certificates software-properties-common ufw
 ```
 
 ### Disable swap:
